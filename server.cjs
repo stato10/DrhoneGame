@@ -4,6 +4,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const files = new Map([
   ['/index.html', 'text/html; charset=utf-8'],
+  ['/drone.html', 'text/html; charset=utf-8'],
+  ['/drone.js', 'text/javascript; charset=utf-8'],
+  ['/drone-core.js', 'text/javascript; charset=utf-8'],
   ['/calibration.html', 'text/html; charset=utf-8'],
   ['/calibration.js', 'text/javascript; charset=utf-8'],
   ['/sensor-math.js', 'text/javascript; charset=utf-8']
@@ -23,3 +26,4 @@ const server = http.createServer((req, res) => {
 });
 server.on('error', error => { console.error('Local preview failed:', error.message); process.exitCode = 1; });
 server.listen(8080, '127.0.0.1', () => console.log('DrhoneGame: http://127.0.0.1:8080/ (Ctrl+C to stop)'));
+

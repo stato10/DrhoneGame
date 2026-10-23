@@ -1,12 +1,13 @@
 {
   "name": "drhone-game",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Standalone Shadow Agent prototype and equipment calibration for Meta Ray-Ban Display",
   "engines": { "node": ">=22" },
   "scripts": {
     "start": "node server.cjs",
-    "test": "node game.test.cjs && node sensors.test.cjs && node --check calibration.js && node --check server.cjs"
+    "test": "node drone.test.cjs && node --check drone.js && node game.test.cjs && node sensors.test.cjs && node --check calibration.js && node --check server.cjs"
   }
 }
+
 
