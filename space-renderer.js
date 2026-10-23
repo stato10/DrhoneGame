@@ -63,7 +63,7 @@ const SpaceRenderer = (() => {
     if(flying){const idx=Math.min(s.gate,11);for(let i=2;i>=0;i--){const index=Math.min(idx+i,11),z=Math.max(.08,1-s.travel+i*.85),f=1/(1+z*2),size=45+125*f;gate(g,300+DroneCore.positions[index]*190*f,255+190*f,size*.8,size*.57,!i&&s.locked,i?.25:1,full?t/600:0);if(!i){const x=300+DroneCore.positions[index]*190*f,y=255+190*f;g.fillStyle=s.locked?'#aaffdd':'#ffe2a9';g.beginPath();g.arc(x,y,5,0,TAU);g.fill()}}
       const depth=1/(1+Math.max(.08,1-s.travel)*2),ax=300+s.aim*190*depth,ay=255+190*depth;g.strokeStyle=s.locked?'#8fffd4':'#d6f3ff';g.lineWidth=1.2;g.beginPath();g.arc(ax,ay,15,0,TAU);g.moveTo(ax-23,ay);g.lineTo(ax-10,ay);g.moveTo(ax+10,ay);g.lineTo(ax+23,ay);g.stroke();
     }
-    const desired=clamp((s.x-lastX)*-6,-.5,.5);bank+=(desired-bank)*.16;lastX=s.x;
+    bank=Number.isFinite(s.roll)?s.roll:0;lastX=s.x;
     if(s.health<lastHealth)impact=1;if(s.gate>lastGate&&s.health===lastHealth)burst=1;lastHealth=s.health;lastGate=s.gate;impact*=.91;burst*=.93;
     if(impact>.03){g.fillStyle=`rgba(255,70,35,${impact*.16})`;g.fillRect(0,0,600,600)}
     if(burst>.05&&full){g.strokeStyle=`rgba(114,255,213,${burst*.6})`;g.lineWidth=2;g.beginPath();g.arc(300,290,80+(1-burst)*240,0,TAU);g.stroke()}

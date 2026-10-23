@@ -8,6 +8,7 @@ const files = new Map([
   ['/drone.js', 'text/javascript; charset=utf-8'],
   ['/space-renderer.js', 'text/javascript; charset=utf-8'],
   ['/drone-core.js', 'text/javascript; charset=utf-8'],
+  ['/flight-controls.js', 'text/javascript; charset=utf-8'],
   ['/calibration.html', 'text/html; charset=utf-8'],
   ['/calibration.js', 'text/javascript; charset=utf-8'],
   ['/sensor-math.js', 'text/javascript; charset=utf-8']
