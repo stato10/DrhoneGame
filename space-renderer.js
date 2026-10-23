@@ -36,17 +36,17 @@ const SpaceRenderer = (() => {
   function polygon(g,pts,fill,stroke){g.beginPath();pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.closePath();g.fillStyle=fill;g.fill();if(stroke){g.strokeStyle=stroke;g.lineWidth=.65;g.stroke()}}
   function transform(p,angle,pitch){const [x,y,z]=p,cp=Math.cos(pitch),sp=Math.sin(pitch),ca=Math.cos(angle),sa=Math.sin(angle);const yy=y*cp-z*sp,zz=y*sp+z*cp;return [x*ca-yy*sa,x*sa+yy*ca,zz]}
   function ship(g,x,y,scale,angle,t,detail){
-    g.save();g.translate(x,y);const points=vertices.map(v=>transform(v,angle,.38));
+    g.save();g.translate(x,y);const points=vertices.map(v=>transform(v,angle,-.38));
     const project=p=>[p[0]*scale*(1+p[2]*.035),p[1]*scale+p[2]*scale*.27];
     // Engine plumes are layered solid polygons, avoiding expensive shadowBlur.
-    for(const ex of [-.64,.64]){const nozzle=project(transform([ex,.17,1.25],angle,.38));const tail=project(transform([ex,.17,3.1+Math.sin(t/60)*.12],angle,.38));const w=scale*.19;
+    for(const ex of [-.64,.64]){const nozzle=project(transform([ex,.17,1.25],angle,-.38));const tail=project(transform([ex,.17,3.1+Math.sin(t/60)*.12],angle,-.38));const w=scale*.19;
       polygon(g,[[nozzle[0]-w,nozzle[1]],[tail[0],tail[1]],[nozzle[0]+w,nozzle[1]]],'#167dc966');
       polygon(g,[[nozzle[0]-w*.48,nozzle[1]],[tail[0],tail[1]-scale*.17],[nozzle[0]+w*.48,nozzle[1]]],'#75efff');
       g.fillStyle='#ddffff';g.beginPath();g.ellipse(nozzle[0],nozzle[1],w*.38,w*.23,angle,0,TAU);g.fill();
     }
     const sorted=faces.map(([ids,color])=>({ids,color,depth:ids.reduce((a,i)=>a+points[i][2],0)/ids.length})).sort((a,b)=>a.depth-b.depth);
     for(const f of sorted){const a=points[f.ids[0]],b=points[f.ids[1]],c=points[f.ids[2]],u=b.map((n,i)=>n-a[i]),v=c.map((n,i)=>n-a[i]);const n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];const mag=Math.hypot(...n)||1;const light=.58+.42*Math.abs((n[0]*-.3+n[1]*-.8+n[2]*-.4)/mag);const rgb=f.color.map(z=>Math.round(z*light));polygon(g,f.ids.map(i=>project(points[i])),`rgb(${rgb})`,detail?'#b4d9ed55':null)}
-    if(detail){g.strokeStyle='#e0f5ff88';g.lineWidth=.8;for(const side of [-1,1]){const p=project(transform([side*.65,-.01,.75],angle,.38)),q=project(transform([side*1.68,.1,1.58],angle,.38));g.beginPath();g.moveTo(...p);g.lineTo(...q);g.stroke();const light=project(transform([side*1.9,.06,1.6],angle,.38));g.fillStyle=side<0?'#ff815c':'#93ffd7';g.fillRect(light[0]-2,light[1]-1,4,2)}}
+    if(detail){g.strokeStyle='#e0f5ff88';g.lineWidth=.8;for(const side of [-1,1]){const p=project(transform([side*.65,-.01,.75],angle,-.38)),q=project(transform([side*1.68,.1,1.58],angle,-.38));g.beginPath();g.moveTo(...p);g.lineTo(...q);g.stroke();const light=project(transform([side*1.9,.06,1.6],angle,-.38));g.fillStyle=side<0?'#ff815c':'#93ffd7';g.fillRect(light[0]-2,light[1]-1,4,2)}}
     g.restore();
   }
   function gate(g,x,y,w,h,locked,alpha,phase){
@@ -73,3 +73,4 @@ const SpaceRenderer = (() => {
   }
   return {render,ship};
 })();
+
